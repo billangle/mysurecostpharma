@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addDrug } from './drugSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function AddDrugPage() {
   const dispatch = useDispatch();
@@ -10,7 +11,8 @@ export default function AddDrugPage() {
 
   const handleSubmit = async (data) => {
     try {
-      await dispatch(addDrug(data)).unwrap();
+      const payload = { ...data, id: uuidv4() };
+      await dispatch(addDrug(payload)).unwrap();
       toast.success('Drug added successfully!');
       navigate('/');
     } catch (error) {

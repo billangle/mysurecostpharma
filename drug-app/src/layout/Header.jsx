@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between bg-blue-900 text-white px-4 py-3 shadow">
       <div className="flex items-center space-x-3">
-        <img src={logo} alt="MySureCostPharma" className="h-10" />
+        <img src={logo} alt="MySureCostPharma" className="w-[300px] h-[117px]"  />
         <h1 className="text-xl font-semibold">{title}</h1>
       </div>
     </header>

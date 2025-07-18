@@ -1,15 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDrugs } from './drugSlice';
+import { fetchDrugs, deleteDrug } from './drugSlice';
 import { Link } from 'react-router-dom';
+import { Eye, Trash2 } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const ITEMS_PER_PAGE = 5;
+
+
 
 export default function DrugCardList() {
   const dispatch = useDispatch();
   const drugs = useSelector(state => state.drugs.items);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
+
+  const handleDelete = (drug) => {
+  const confirmed = window.confirm(`Are you sure you want to delete "${drug.name}"?`);
+  if (confirmed) {
+    dispatch(deleteDrug(drug.id))
+        .unwrap()
+        .then(() => toast.success(`Drug ${drug.name} deleted`))
+        .catch(() => toast.error(`Failed to delete drug ${drug.name}`));
+  }
+};
 
   useEffect(() => {
     dispatch(fetchDrugs());
@@ -43,13 +57,26 @@ export default function DrugCardList() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {paginatedDrugs.map(drug => (
           <div key={drug.id} className="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-indigo-700">{drug.name}</h2>
+            <h2 className="text-xl font-bold text-indigo-700 mb-1">
+              <Link to={`/view/${drug.id}`} className="hover:underline">
+                {drug.name}
+              </Link>
+            </h2>
             <p className="text-sm text-gray-500">Manufacturer: {drug.manufacturer}</p>
             <p className="text-sm text-gray-500">Type: {drug.type}</p>
             <p className="text-sm text-gray-500">Qty: {drug.quantity}</p>
             <p className="text-sm text-gray-500">Price: ${drug.price}</p>
-            <Link to={`/view/${drug.id}`} className="text-blue-500 underline text-sm mt-2 block">View</Link>
-          </div>
+            <div className="flex items-center space-x-4 mt-2">
+              <Link to={`/view/${drug.id}`} className="text-blue-600 hover:text-blue-800 flex items-center space-x-1">
+                <Eye size={18} />
+                <span>View</span>
+              </Link>
+              <button onClick={() => handleDelete(drug)} className="text-red-600 hover:text-red-800 flex items-center space-x-1">
+                <Trash2 size={18} />
+                <span>Delete</span>
+              </button>
+            </div>          
+            </div>
         ))}
       </div>
       <div className="flex justify-center space-x-4 mt-6">

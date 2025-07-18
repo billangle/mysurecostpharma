@@ -39,7 +39,12 @@ def get_drug(drug_id: UUID, db: Session = Depends(get_db)):
 
 @router.get("/drugs", response_model=list[DrugOut])
 def search_drugs(name: str = "", db: Session = Depends(get_db)):
-    return db.query(Drug).filter(Drug.name.ilike(f"%{name}%")).all()
+    return (
+        db.query(Drug)
+        .filter(Drug.name.ilike(f"%{name}%"))
+        .order_by(Drug.name)
+        .all()
+    )
 
 @router.put("/drugs/{drug_id}", response_model=DrugOut)
 def update_drug(drug_id: UUID, drug: DrugUpdate, db: Session = Depends(get_db)):

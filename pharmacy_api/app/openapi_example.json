@@ -1,0 +1,18 @@
+{
+  "summary": "Create a drug entry",
+  "description": "This endpoint creates a new drug entry. If an ID is provided and exists, it returns the existing record.",
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "example": {
+          "name": "Amoxicillin",
+          "manufacturer": "Pfizer",
+          "quantity": 200,
+          "type": "capsule",
+          "price": 12.34,
+          "source": "import"
+        }
+      }
+    }
+  }
+}

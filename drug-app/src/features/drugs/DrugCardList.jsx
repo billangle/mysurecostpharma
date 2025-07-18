@@ -1,52 +1,52 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDrugs, deleteDrug } from './drugSlice';
-import { Link } from 'react-router-dom';
+import {
+  fetchDrugs,
+  deleteDrug,
+  setSearchTerm,
+  setCurrentPage
+} from './drugSlice';
+import { Link, useLocation } from 'react-router-dom';
 import { Eye, Trash2 } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useLocation } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 5;
 
-
-
 export default function DrugCardList() {
-  const location = useLocation();
   const dispatch = useDispatch();
-  const drugs = useSelector(state => state.drugs.items);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
+  const location = useLocation();
+  const drugs = useSelector((state) => state.drugs.items);
+  const status = useSelector((state) => state.drugs.status);
+  const searchTerm = useSelector((state) => state.drugs.searchTerm);
+  const currentPage = useSelector((state) => state.drugs.currentPage);
 
-  const handleDelete = (drug) => {
-  const confirmed = window.confirm(`Are you sure you want to delete "${drug.name}"?`);
-  if (confirmed) {
-    dispatch(deleteDrug(drug.id))
-        .unwrap()
-        .then(() => toast.success(`Drug ${drug.name} deleted`))
-        .catch(() => toast.error(`Failed to delete drug ${drug.name}`));
-  }
-};
-
+  // 🔁 Refetch and reset state on route navigation
   useEffect(() => {
     dispatch(fetchDrugs());
-    setCurrentPage(0);
-  }, [location.pathname,dispatch]);
+    dispatch(setSearchTerm(''));
+    dispatch(setCurrentPage(0));
+  }, [location.pathname, dispatch]);
 
-  const filteredDrugs = drugs.filter(d =>
+  const handleDelete = (drug) => {
+    const confirmed = window.confirm(`Delete "${drug.name}"?`);
+    if (confirmed) {
+      dispatch(deleteDrug(drug.id))
+        .unwrap()
+        .then(() => toast.success(`"${drug.name}" deleted`))
+        .catch(() => toast.error(`Failed to delete "${drug.name}"`));
+    }
+  };
+
+  const filteredDrugs = drugs.filter((d) =>
     d.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (!drugs || drugs.length === 0) {
-    return (
-      <div className="p-4 text-center">
-        <p className="text-gray-700 text-lg">No drugs are available.</p>
-        <Link to="/adddrugs" className="text-blue-500 underline">Click here to add a new drug</Link>
-      </div>
-    );
-  }
-
   const start = currentPage * ITEMS_PER_PAGE;
   const paginatedDrugs = filteredDrugs.slice(start, start + ITEMS_PER_PAGE);
+
+  if (status === 'loading') {
+    return <div className="text-center mt-10 text-blue-600">Loading drugs...</div>;
+  }
 
   return (
     <div className="p-4">
@@ -54,45 +54,71 @@ export default function DrugCardList() {
         type="text"
         placeholder="Search drugs..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => {
+          dispatch(setSearchTerm(e.target.value));
+          dispatch(setCurrentPage(0));
+        }}
         className="mb-4 p-2 border rounded w-full max-w-md"
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {paginatedDrugs.map(drug => (
-          <div key={drug.id} className="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-indigo-700 mb-1">
-              <Link to={`/view/${drug.id}`} className="hover:underline">
-                {drug.name}
-              </Link>
-            </h2>
-            <p className="text-sm text-gray-500">Manufacturer: {drug.manufacturer}</p>
-            <p className="text-sm text-gray-500">Type: {drug.type}</p>
-            <p className="text-sm text-gray-500">Qty: {drug.quantity}</p>
-            <p className="text-sm text-gray-500">Price: ${drug.price}</p>
-            <div className="flex items-center space-x-4 mt-2">
-              <Link to={`/view/${drug.id}`} className="text-blue-600 hover:text-blue-800 flex items-center space-x-1">
-                <Eye size={18} />
-                <span>View</span>
-              </Link>
-              <button onClick={() => handleDelete(drug)} className="text-red-600 hover:text-red-800 flex items-center space-x-1">
-                <Trash2 size={18} />
-                <span>Delete</span>
-              </button>
-            </div>          
+
+      {filteredDrugs.length === 0 ? (
+        <div className="text-center mt-8 text-gray-600">
+          No drugs found.{' '}
+          <Link to="/adddrugs" className="text-blue-500 underline">
+            Add one?
+          </Link>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {paginatedDrugs.map((drug) => (
+            <div
+              key={drug.id}
+              className="bg-white shadow-lg rounded-lg p-6 border border-gray-200"
+            >
+              <h2 className="text-xl font-bold text-indigo-700 mb-1">
+                <Link to={`/view/${drug.id}`} className="hover:underline">
+                  {drug.name}
+                </Link>
+              </h2>
+              <p className="text-sm text-gray-500">Manufacturer: {drug.manufacturer}</p>
+              <p className="text-sm text-gray-500">Type: {drug.type}</p>
+              <p className="text-sm text-gray-500">Qty: {drug.quantity}</p>
+              <p className="text-sm text-gray-500 mb-2">Price: ${drug.price}</p>
+
+              <div className="flex items-center space-x-4 mt-2">
+                <Link
+                  to={`/view/${drug.id}`}
+                  className="text-blue-600 hover:text-blue-800 flex items-center space-x-1"
+                >
+                  <Eye size={18} />
+                  <span>View</span>
+                </Link>
+
+                <button
+                  onClick={() => handleDelete(drug)}
+                  className="text-red-600 hover:text-red-800 flex items-center space-x-1"
+                >
+                  <Trash2 size={18} />
+                  <span>Delete</span>
+                </button>
+              </div>
             </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
       <div className="flex justify-center space-x-4 mt-6">
         <button
           disabled={currentPage === 0}
-          onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => dispatch(setCurrentPage(currentPage - 1))}
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
         >
           Prev
         </button>
         <button
           disabled={start + ITEMS_PER_PAGE >= filteredDrugs.length}
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => dispatch(setCurrentPage(currentPage + 1))}
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
         >
           Next

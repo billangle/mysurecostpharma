@@ -8,8 +8,16 @@ export const deleteDrug = createAsyncThunk('drugs/delete', api.deleteDrug);
 
 const drugSlice = createSlice({
   name: 'drugs',
-  initialState: { items: [], status: 'idle', error: null },
-  reducers: {},
+  initialState: { items: [], status: 'idle', error: null, searchTerm: '',
+  currentPage: 0},
+  reducers: {
+     setSearchTerm(state, action) {
+    state.searchTerm = action.payload;
+  },
+  setCurrentPage(state, action) {
+    state.currentPage = action.payload;
+  },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchDrugs.fulfilled, (state, action) => {
@@ -28,4 +36,5 @@ const drugSlice = createSlice({
   },
 });
 
+export const { setSearchTerm, setCurrentPage } = drugSlice.actions;
 export default drugSlice.reducer;

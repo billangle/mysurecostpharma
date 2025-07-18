@@ -5,7 +5,8 @@ const pageTitles = {
   '/': 'Drug List',
   '/adddrugs': 'Add New Drug',
   '/view': 'Drug Details',
-  '/edit': 'Edit Drug'
+  '/edit': 'Edit Drug',
+  '/search': 'Search Drugs',
 };
 
 export default function Header() {

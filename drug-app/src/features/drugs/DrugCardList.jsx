@@ -4,12 +4,14 @@ import { fetchDrugs, deleteDrug } from './drugSlice';
 import { Link } from 'react-router-dom';
 import { Eye, Trash2 } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { useLocation } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 5;
 
 
 
 export default function DrugCardList() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const drugs = useSelector(state => state.drugs.items);
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +29,8 @@ export default function DrugCardList() {
 
   useEffect(() => {
     dispatch(fetchDrugs());
-  }, [dispatch]);
+    setCurrentPage(0);
+  }, [location.pathname,dispatch]);
 
   const filteredDrugs = drugs.filter(d =>
     d.name.toLowerCase().includes(searchTerm.toLowerCase())

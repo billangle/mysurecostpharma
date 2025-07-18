@@ -19,6 +19,7 @@ function App() {
             <Route path="/adddrugs" element={<AddDrugPage />} />
             <Route path="/view/:id" element={<ViewDrugPage />} />
             <Route path="/edit/:id" element={<EditDrugPage />} />
+            <Route path="/search" element={<DrugCardList />} />
           </Routes>
         </Layout>
         <ToastContainer />

@@ -95,7 +95,7 @@ The limitation of this approach is that once the ZIP file is downloaded, it is m
 
 * Create GitHub actions for deployment with varibles and secrets for database access credentials and AWS account information
 * Create AWS ECS deployment using ALB for the REST API - using Fargate serverless compute 
-* Create AWS Postgres RDS Serverless for database
+* Create AWS Aurora Serverless Postgres for database
 * Deploy frontend on AWS S3 bucket using the name of the Route53 DNS entry for this application. Make this SSL using Cloudfront. Add AWS WAF with Botnet protection and CloudShield.
 * Utilize OAuth 2.0 to protect the REST API. Requests should include JWT Token.
 * Create users/user management using AWS Cognito which can implement OAuth 2.0 and provide JWT tokens for calls to REST API. Integrate the login with the FE application.

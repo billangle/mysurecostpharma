@@ -213,6 +213,6 @@ npm run test
 
 * Vite - https://vite.dev/guide
 * Tailwind CSS - https://tailwindcss.com/docs/installation/framework-guides
-* Axios -
-* Redux Toolkit - 
-* Vitest -
+* Axios - https://axios-http.com/docs/intro
+* Redux Toolkit - https://redux-toolkit.js.org/
+* Vitest - https://vitest.dev/

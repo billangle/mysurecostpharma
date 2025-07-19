@@ -59,7 +59,22 @@ i would like routing for edit/view, better card UI, or pagination!
 add a header on every page with a new generated logo for MySureCostPharma and the title of the page based on the page route. Add a footer with the MySureCostPharma copyright 2025. Add a left collapsable sidebar navigation with icons and links to Add New Drug, Home and Search for a Drug
 
 ## AI-Generated vs. Manually Refined Work
-
+The git commits reflect the manaul versus the pure AI work. 
+<pre>
+git log --oneline
+21ed2df (HEAD -> main, origin/main, origin/HEAD) updates to readme
+1a45d50 updates to unit tests
+06aad47 updates toredux for pages
+e204ecd updates for search
+00ca70d update to add for UUID
+a664e34 update so that search and ordering work
+22f2ef1 returned sorted list
+742a76d added delete
+ae64ffb updated the logo
+d7a7ce4 app init -- AI for FE
+e9286f3 init -- AI for BE
+c72db23 Initial commit - AI for BE
+</pre>
 
 
 ## AI Failures

@@ -85,7 +85,7 @@ c72db23 Initial commit - AI for BE
 ### Frontend Testing was a complete failure
 The frontend unit tests required many iterations and much manul intervention, before there was a solution.
 
-## Pros and Cons
+# Pros and Cons
 The AI tooling generated code that was very helpful to start the project. The REST API code was very effective. The UI code was much more challenging and took some work. 
 
 # Production Readiness
@@ -109,10 +109,74 @@ The AI tooling generated code that was very helpful to start the project. The RE
 ### Prerequisites
 
 * Docker Desktop
-* NPM
+* npm
+* psql 
 
-### Running
+# Running
+Assuming that the user is able to have shell access via a terminal. Instructions assume the user is on MacOS.
 
+# Starting Part 1
+Run the REST API with Postgres using Docker on port 8000 of the localhost
+
+Run the script ./pharmacy_api/start_pharma_api.sh will create and run the back-end REST API. 
+
+### Assumptions of the script
+
+* Assumes you're running on macOS or Windows (where host.docker.internal works).
+
+* If you're on Linux, replace host.docker.internal with 172.17.0.1 or your actual host IP.
+
+* Make sure psql is installed and accessible from the shell.
+
+* The script assumes correct file paths and executable scripts (schema.sql, add_10_drugs.sh, and test_api_endpoints_with_uuid.sh).
+
+### Actions of the script - required to start the REST API
+* Create and start the pharmacy-db
+<pre>
+docker run --name pharmacy-db \
+  -e POSTGRES_USER=user \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=pharmacy \
+  -p 5432:5432 \
+  -d postgres
+</pre>
+* Create the database table in the database
+<pre>cd /pharmacy_api
+ cat schema.sql | psql postgres://user:password@localhost:5432/pharmacy
+ </pre>
+* Create the pharmacy_api 
+<pre>
+docker build -t pharmacy-api .
+</pre>
+* Run the REST API with the Postgres Database
+<pre>docker run --name pharmacy-api \
+  --env DATABASE_URL=postgresql://user:password@host.docker.internal:5432/pharmacy \
+  -p 8000:8000 \
+  pharmacy-api &
+  </pre>
+* Add some drugs to the database
+<pre>
+cd tests; ./add_10_drugs.sh
+</pre>
+* Test that is is working
+<pre>
+./test_api_endpoints_with_uuid.sh
+</pre>
+
+# Starting Part 2
+Starting the React Frontend using npm
+
+Must be in the /drug_app directory
+
+* Run the command <pre>npm install</pre>
+
+* Run the command <pre>npm run dev</pre>
+
+The application should be running on
+http://localhost:5173/
+
+### Swagger Docs
+* http://localhost:8000/docs
 
 ### Database Schema
 

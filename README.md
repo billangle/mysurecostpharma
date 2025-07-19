@@ -6,7 +6,7 @@ SureCost Pharma Project - created by William Beckett
 
 
 ### Part 1 Overview
-The REST API is written in Python using FastAPI. It is assuming a Postgres Database and uses SQLAlchemy as the ORM. The application is deployed using a Docker container. The Postgres Database is also deployed using a Docker container. The source code is located in the /phamacy_api drectory of the repository. There are both Python and UNIX shell based test tools, utilized for unit tests.
+The REST API is written in Python using FastAPI. It is assuming a Postgres Database and uses SQLAlchemy as the ORM. The application is deployed using a Docker container. The Postgres Database is also deployed using a Docker container. The source code is located in the /phamacy_api drectory of the repository. There are UNIX shell based test tools, utilized for unit tests.
 
 ### Part 2 Overview
 The frontend application is ReactJS based solution using Redux toolkit and Axios libraries. The application constructed using the vite build tool. The tailwind CSS style library for a consistent look and feel across the application. The vitest library is utilized for unit tests. The source code is in the /drug-app directory of the repository.
@@ -16,7 +16,7 @@ The frontend application is ReactJS based solution using Redux toolkit and Axios
 
 ## Prompt Logs and Prompting Strategy
 
-Basic strategy is to provide overview prompts, which will generate the basic request. This is followed by a series of questions, asked by the LLM, which are used to add functionality to the solution. The basic solution is then downloaded in a ZIP file.
+Basic strategy is to provide overview prompts, which will generate the basic request. This is followed by a series of questions, asked by the LLM, which are used to add functionality to the solution. This approach utilizes the LLM memory to provide changes on the files that it has created, and is using the LLM memory to build upon the work that it hs done. The basic solution is then downloaded in a ZIP file.
 
 # Part 1 Prompts
 
@@ -83,10 +83,12 @@ c72db23 Initial commit - AI for BE
 * example @hookform/resolvers
 
 ### Frontend Testing was a complete failure
-The frontend unit tests required many iterations and much manul intervention, before there was a solution.
+The frontend unit tests required many iterations and much manual intervention, before there was a solution.
 
 # Pros and Cons
-The AI tooling generated code that was very helpful to start the project. The REST API code was very effective. The UI code was much more challenging and took some work. 
+The AI tooling generated code that was very helpful to start the project. The generated REST API code was very effective. The UI code was much more challenging and took some work. The process of having the LLM build upon ever increasing detailed prompts, was able to create a very useful output.
+
+The limitation of this approach is that once the ZIP file is downloaded, it is much more difficult to make changes. The LLM can forget critical details and generate solutions that no longer align with what was orginally produced. 
 
 # Production Readiness
 
@@ -118,7 +120,7 @@ Assuming that the user is able to have shell access via a terminal. Instructions
 # Starting Part 1
 Run the REST API with Postgres using Docker on port 8000 of the localhost
 
-Run the script ./pharmacy_api/start_pharma_api.sh will create and run the back-end REST API. 
+Run the script ./start_pharma_api.sh from the pharmacy_api directory. Assumes that the script is started in the phamacy_api directory. This will create and run the back-end REST API. 
 
 ### Assumptions of the script
 
@@ -196,6 +198,16 @@ CREATE TABLE drugs (
 </pre>
 
 ### Testing
+
+Unit tests for REST API <pre>
+cd pharmacy_api/tests
+./test_api_endpoints_with_uuid.sh</pre>
+
+Unit tests for Frontend
+<pre>
+cd drug_app
+npm run test
+</pre>
 
 ### Links
 

@@ -1,0 +1,18 @@
+{
+    "settings":{
+        "topdir": "frontend",
+        "environment": "prod",
+        "region": "us-east-1",
+        "account": "",
+        "node_version": "NODEJS_16_X",
+        "role": "",
+        "domain": "mysurecostpharma.com",
+        "api_name": "MySureCostPharma",
+        "api_dns":  "app",
+        "description": "MySureCostAPI",
+        "cert_arn": "",
+        "rest_api_id": "",
+        "root_resource_id": "",
+        "user_pool_arn": ""
+    }
+}

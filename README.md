@@ -3,6 +3,8 @@ SureCost Pharma Project - created by William Beckett
 * https://www.linkedin.com/in/wbeckett/
 * http://rightaresearch.com
 
+### Project Link
+https://app.mysurecostpharma.com
 
 
 ### Part 1 Overview
@@ -112,7 +114,7 @@ The limitation of this approach is that once the ZIP file is downloaded, it is m
 
 * Docker Desktop
 * npm
-* psql 
+* psql (brew install postgresql)
 
 # Running
 Assuming that the user is able to have shell access via a terminal. Instructions assume the user is on MacOS.

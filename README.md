@@ -6,6 +6,9 @@ SureCost Pharma Project - created by William Beckett
 ### Project Link
 https://app.mysurecostpharma.com
 
+### Swagger
+https://api.mysurecostpharma.com/docs
+
 
 ### Part 1 Overview
 The REST API is written in Python using FastAPI. It is assuming a Postgres Database and uses SQLAlchemy as the ORM. The application is deployed using a Docker container. The Postgres Database is also deployed using a Docker container. The source code is located in the /phamacy_api drectory of the repository. There are UNIX shell based test tools, utilized for unit tests.

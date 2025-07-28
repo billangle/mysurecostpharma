@@ -2,7 +2,8 @@
 
 set -e
 
-API_URL="http://localhost:8000/drugs"
+#API_URL="http://localhost:8000/drugs"
+API_URL="https://api2.mysurecostpharma.com/drugs"
 UUID=$(uuidgen)
 
 echo "▶️  Creating a drug (POST)"

@@ -1,0 +1,10 @@
+{
+  "acknowledged-issue-numbers": [
+    34892,
+    34892
+  ],
+  "hosted-zone:account=685600652087:domainName=mysurecostpharma.com:region=us-east-1": {
+    "Id": "/hostedzone/Z08381452WEYTVH6RJ6S0",
+    "Name": "mysurecostpharma.com."
+  }
+}

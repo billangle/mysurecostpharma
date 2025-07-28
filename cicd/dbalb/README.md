@@ -1,6 +1,7 @@
 # Backend ECS and DB
 
 The Dockerfile is in pharmacy_api/Dockerfile - it is assuming running on port 80. There needs to be a change so that the local build can be on 8000.
+The containerdb and other container strategy doesn't work for this Python application. 
 
 The API Gateway is not used in this build. The references have bee commented out.
 

@@ -35,7 +35,7 @@ export const handler = async (event) => {
   
   const secret = JSON.parse(secretData.SecretString);
   console.log ("Secret: ", secret);
-
+/*
   const pgclient = new pkg.Client({
     user: secret.username,
     host: process.env.DB_HOST,
@@ -71,12 +71,12 @@ export const handler = async (event) => {
   try {
      await pgclient.end();
   } catch (xx) {}
-
+*/
   try {
     const pgclient2 = new pkg.Client({
         user: secret.username,
         host: process.env.DB_HOST,
-        database: 'pharmacy', 
+        database: 'postgres', 
         password: secret.password,
         port: 5432,
         ssl: {
@@ -85,7 +85,7 @@ export const handler = async (event) => {
       });
 
     try {
-         await pgclient.connect();
+         await pgclient2.connect();
         await pgclient2.query(sql);
         console.log('Schema created ' + sql);
 

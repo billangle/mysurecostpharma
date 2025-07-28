@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_URL=http://localhost:8000/drugs
+API_URL=https://api.mysurecostpharma.com/drugs
 
 echo "📦 Adding 10 drug records to the database..."
 

@@ -15,6 +15,10 @@ exports.handler = async () => {
         created_at: item.created_at.S,
         updated_at: item.updated_at.S
     }));
+
+    // Sort by name (case-insensitive)
+    items.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+
     return { statusCode: 200, 
                 headers: { 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*"},

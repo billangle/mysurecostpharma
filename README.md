@@ -6,8 +6,6 @@ SureCost Pharma Project - created by William Beckett
 ### Project Link
 https://app.mysurecostpharma.com
 
-### Swagger
-https://api.mysurecostpharma.com/docs
 
 # Getting Started
 
